@@ -1,0 +1,510 @@
+{
+	"info": {
+		"_postman_id": "65186515-8937-438c-8622-0a5abfc7422b",
+		"name": "Todo API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28145919"
+	},
+	"item": [
+		{
+			"name": "Get All Projects",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 2000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response is an array\", function () {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.be.an(\"array\").that.is.not.empty;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Each item has required properties\", function () {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    jsonData.forEach(item => {\r",
+							"        pm.expect(item).to.have.property(\"Id\");\r",
+							"        pm.expect(item).to.have.property(\"Content\");\r",
+							"        pm.expect(item).to.have.property(\"ItemsCount\");\r",
+							"        pm.expect(item).to.have.property(\"Icon\");\r",
+							"        pm.expect(item).to.have.property(\"ItemType\");\r",
+							"        pm.expect(item).to.have.property(\"ParentId\");\r",
+							"        pm.expect(item).to.have.property(\"Collapsed\");\r",
+							"        pm.expect(item).to.have.property(\"ItemOrder\");\r",
+							"        pm.expect(item).to.have.property(\"Children\");\r",
+							"        pm.expect(item).to.have.property(\"IsProjectShared\");\r",
+							"        pm.expect(item).to.have.property(\"ProjectShareOwnerName\");\r",
+							"        pm.expect(item).to.have.property(\"ProjectShareOwnerEmail\");\r",
+							"        pm.expect(item).to.have.property(\"IsShareApproved\");\r",
+							"        pm.expect(item).to.have.property(\"IsOwnProject\");\r",
+							"        pm.expect(item).to.have.property(\"LastSyncedDateTime\");\r",
+							"        pm.expect(item).to.have.property(\"LastUpdatedDate\");\r",
+							"        pm.expect(item).to.have.property(\"Deleted\");\r",
+							"        pm.expect(item).to.have.property(\"SyncClientCreationId\");\r",
+							"    });\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Each item has properties with correct data types\", function () {\r",
+							"    let jsonData = pm.response.json();\r",
+							"\r",
+							"    jsonData.forEach(item => {\r",
+							"        pm.expect(item.Id).to.be.a(\"number\");\r",
+							"        pm.expect(item.Content).to.be.a(\"string\");\r",
+							"        pm.expect(item.ItemsCount).to.be.a(\"number\");\r",
+							"        pm.expect(item.Icon).to.be.a(\"number\");\r",
+							"        pm.expect(item.ItemType).to.be.a(\"number\");\r",
+							"        pm.expect(item.ParentId).to.satisfy(value => value === null || typeof value === \"number\");\r",
+							"        pm.expect(item.Collapsed).to.be.a(\"boolean\");\r",
+							"        pm.expect(item.ItemOrder).to.be.a(\"number\");\r",
+							"        pm.expect(item.Children).to.be.an(\"array\");\r",
+							"        pm.expect(item.IsProjectShared).to.be.a(\"boolean\");\r",
+							"        pm.expect(item.ProjectShareOwnerName).to.satisfy(value => value === null || typeof value === \"string\");\r",
+							"        pm.expect(item.ProjectShareOwnerEmail).to.satisfy(value => value === null || typeof value === \"string\");\r",
+							"        pm.expect(item.IsShareApproved).to.be.a(\"boolean\");\r",
+							"        pm.expect(item.IsOwnProject).to.be.a(\"boolean\");\r",
+							"        pm.expect(item.LastSyncedDateTime).to.be.a(\"string\");\r",
+							"        pm.expect(item.LastUpdatedDate).to.be.a(\"string\");\r",
+							"        pm.expect(item.Deleted).to.be.a(\"boolean\");\r",
+							"        pm.expect(item.SyncClientCreationId).to.satisfy(value => value === null || typeof value === \"string\");\r",
+							"    });\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "{{emailTest\n}}",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "{{passwordTest}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}projects.json",
+					"host": [
+						"{{url}}projects",
+						"json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create New Project",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 2000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has all required properties\", function () {\r",
+							"    let jsonData = pm.response.json();\r",
+							"\r",
+							"    pm.expect(jsonData).to.have.property(\"Id\");\r",
+							"    pm.expect(jsonData).to.have.property(\"Content\");\r",
+							"    pm.expect(jsonData).to.have.property(\"ItemsCount\");\r",
+							"    pm.expect(jsonData).to.have.property(\"Icon\");\r",
+							"    pm.expect(jsonData).to.have.property(\"ItemType\");\r",
+							"    pm.expect(jsonData).to.have.property(\"ParentId\");\r",
+							"    pm.expect(jsonData).to.have.property(\"Collapsed\");\r",
+							"    pm.expect(jsonData).to.have.property(\"ItemOrder\");\r",
+							"    pm.expect(jsonData).to.have.property(\"Children\");\r",
+							"    pm.expect(jsonData).to.have.property(\"IsProjectShared\");\r",
+							"    pm.expect(jsonData).to.have.property(\"ProjectShareOwnerName\");\r",
+							"    pm.expect(jsonData).to.have.property(\"ProjectShareOwnerEmail\");\r",
+							"    pm.expect(jsonData).to.have.property(\"IsShareApproved\");\r",
+							"    pm.expect(jsonData).to.have.property(\"IsOwnProject\");\r",
+							"    pm.expect(jsonData).to.have.property(\"LastSyncedDateTime\");\r",
+							"    pm.expect(jsonData).to.have.property(\"LastUpdatedDate\");\r",
+							"    pm.expect(jsonData).to.have.property(\"Deleted\");\r",
+							"    pm.expect(jsonData).to.have.property(\"SyncClientCreationId\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response properties have correct data types\", function () {\r",
+							"    let jsonData = pm.response.json();\r",
+							"\r",
+							"    pm.expect(jsonData.Id).to.be.a(\"number\");\r",
+							"    pm.expect(jsonData.Content).to.be.a(\"string\");\r",
+							"    pm.expect(jsonData.ItemsCount).to.be.a(\"number\");\r",
+							"    pm.expect(jsonData.Icon).to.be.a(\"number\");\r",
+							"    pm.expect(jsonData.ItemType).to.be.a(\"number\");\r",
+							"    pm.expect(jsonData.ParentId).to.satisfy(value => value === null || typeof value === \"number\");\r",
+							"    pm.expect(jsonData.Collapsed).to.be.a(\"boolean\");\r",
+							"    pm.expect(jsonData.ItemOrder).to.be.a(\"number\");\r",
+							"    pm.expect(jsonData.Children).to.be.an(\"array\");\r",
+							"    pm.expect(jsonData.IsProjectShared).to.be.a(\"boolean\");\r",
+							"    pm.expect(jsonData.ProjectShareOwnerName).to.satisfy(value => value === null || typeof value === \"string\");\r",
+							"    pm.expect(jsonData.ProjectShareOwnerEmail).to.satisfy(value => value === null || typeof value === \"string\");\r",
+							"    pm.expect(jsonData.IsShareApproved).to.be.a(\"boolean\");\r",
+							"    pm.expect(jsonData.IsOwnProject).to.be.a(\"boolean\");\r",
+							"    pm.expect(jsonData.LastSyncedDateTime).to.be.a(\"string\");\r",
+							"    pm.expect(jsonData.LastUpdatedDate).to.be.a(\"string\");\r",
+							"    pm.expect(jsonData.Deleted).to.be.a(\"boolean\");\r",
+							"    pm.expect(jsonData.SyncClientCreationId).to.satisfy(value => value === null || typeof value === \"string\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response does not contain unexpected properties\", function () {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    const expectedKeys = [\r",
+							"        \"Id\", \"Content\", \"ItemsCount\", \"Icon\", \"ItemType\", \"ParentId\", \"Collapsed\",\r",
+							"        \"ItemOrder\", \"Children\", \"IsProjectShared\", \"ProjectShareOwnerName\",\r",
+							"        \"ProjectShareOwnerEmail\", \"IsShareApproved\", \"IsOwnProject\", \r",
+							"        \"LastSyncedDateTime\", \"LastUpdatedDate\", \"Deleted\", \"SyncClientCreationId\"\r",
+							"    ];\r",
+							"\r",
+							"    Object.keys(jsonData).forEach(key => {\r",
+							"        pm.expect(expectedKeys).to.include(key);\r",
+							"    });\r",
+							"});\r",
+							"\r",
+							"let response = pm.response.json();\r",
+							"pm.collectionVariables.set(\"lastId\", response.Id);\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "{{emailTest\n}}",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "{{passwordTest}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Content\": \"{{$randomProductName}}\",\r\n    \"Icon\": 4\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}projects.json",
+					"host": [
+						"{{url}}projects",
+						"json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Project By Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 2000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Each item has required properties\", function () {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.have.property(\"Id\");\r",
+							"    pm.expect(jsonData).to.have.property(\"Content\");\r",
+							"    pm.expect(jsonData).to.have.property(\"ItemsCount\");\r",
+							"    pm.expect(jsonData).to.have.property(\"Icon\");\r",
+							"    pm.expect(jsonData).to.have.property(\"ItemType\");\r",
+							"    pm.expect(jsonData).to.have.property(\"ParentId\");\r",
+							"    pm.expect(jsonData).to.have.property(\"Collapsed\");\r",
+							"    pm.expect(jsonData).to.have.property(\"ItemOrder\");\r",
+							"    pm.expect(jsonData).to.have.property(\"Children\");\r",
+							"    pm.expect(jsonData).to.have.property(\"IsProjectShared\");\r",
+							"    pm.expect(jsonData).to.have.property(\"ProjectShareOwnerName\");\r",
+							"    pm.expect(jsonData).to.have.property(\"ProjectShareOwnerEmail\");\r",
+							"    pm.expect(jsonData).to.have.property(\"IsShareApproved\");\r",
+							"    pm.expect(jsonData).to.have.property(\"IsOwnProject\");\r",
+							"    pm.expect(jsonData).to.have.property(\"LastSyncedDateTime\");\r",
+							"    pm.expect(jsonData).to.have.property(\"LastUpdatedDate\");\r",
+							"    pm.expect(jsonData).to.have.property(\"Deleted\");\r",
+							"    pm.expect(jsonData).to.have.property(\"SyncClientCreationId\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Each item has properties with correct data types\", function () {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.Id).to.be.a(\"number\");\r",
+							"    pm.expect(jsonData.Content).to.be.a(\"string\");\r",
+							"    pm.expect(jsonData.ItemsCount).to.be.a(\"number\");\r",
+							"    pm.expect(jsonData.Icon).to.be.a(\"number\");\r",
+							"    pm.expect(jsonData.ItemType).to.be.a(\"number\");\r",
+							"    pm.expect(jsonData.ParentId).to.satisfy(value => value === null || typeof value === \"number\");\r",
+							"    pm.expect(jsonData.Collapsed).to.be.a(\"boolean\");\r",
+							"    pm.expect(jsonData.ItemOrder).to.be.a(\"number\");\r",
+							"    pm.expect(jsonData.Children).to.be.an(\"array\");\r",
+							"    pm.expect(jsonData.IsProjectShared).to.be.a(\"boolean\");\r",
+							"    pm.expect(jsonData.ProjectShareOwnerName).to.satisfy(value => value === null || typeof value === \"string\");\r",
+							"    pm.expect(jsonData.ProjectShareOwnerEmail).to.satisfy(value => value === null || typeof value === \"string\");\r",
+							"    pm.expect(jsonData.IsShareApproved).to.be.a(\"boolean\");\r",
+							"    pm.expect(jsonData.IsOwnProject).to.be.a(\"boolean\");\r",
+							"    pm.expect(jsonData.LastSyncedDateTime).to.be.a(\"string\");\r",
+							"    pm.expect(jsonData.LastUpdatedDate).to.be.a(\"string\");\r",
+							"    pm.expect(jsonData.Deleted).to.be.a(\"boolean\");\r",
+							"    pm.expect(jsonData.SyncClientCreationId).to.satisfy(value => value === null || typeof value === \"string\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Date fields have correct format\", function () {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.LastSyncedDateTime).to.match(/^\\/Date\\(\\d+\\)\\/$/);\r",
+							"    pm.expect(jsonData.LastUpdatedDate).to.match(/^\\/Date\\(\\d+\\)\\/$/);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"packages": {},
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{passwordTest}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{emailTest\n}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}projects/{{lastId}}.json",
+					"host": [
+						"{{url}}projects"
+					],
+					"path": [
+						"{{lastId}}.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Project By Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 2000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has all required properties\", function () {\r",
+							"    let jsonData = pm.response.json();\r",
+							"\r",
+							"    pm.expect(jsonData).to.have.property(\"Id\");\r",
+							"    pm.expect(jsonData).to.have.property(\"Content\");\r",
+							"    pm.expect(jsonData).to.have.property(\"ItemsCount\");\r",
+							"    pm.expect(jsonData).to.have.property(\"Icon\");\r",
+							"    pm.expect(jsonData).to.have.property(\"ItemType\");\r",
+							"    pm.expect(jsonData).to.have.property(\"ParentId\");\r",
+							"    pm.expect(jsonData).to.have.property(\"Collapsed\");\r",
+							"    pm.expect(jsonData).to.have.property(\"ItemOrder\");\r",
+							"    pm.expect(jsonData).to.have.property(\"Children\");\r",
+							"    pm.expect(jsonData).to.have.property(\"IsProjectShared\");\r",
+							"    pm.expect(jsonData).to.have.property(\"ProjectShareOwnerName\");\r",
+							"    pm.expect(jsonData).to.have.property(\"ProjectShareOwnerEmail\");\r",
+							"    pm.expect(jsonData).to.have.property(\"IsShareApproved\");\r",
+							"    pm.expect(jsonData).to.have.property(\"IsOwnProject\");\r",
+							"    pm.expect(jsonData).to.have.property(\"LastSyncedDateTime\");\r",
+							"    pm.expect(jsonData).to.have.property(\"LastUpdatedDate\");\r",
+							"    pm.expect(jsonData).to.have.property(\"Deleted\");\r",
+							"    pm.expect(jsonData).to.have.property(\"SyncClientCreationId\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response properties have correct data types\", function () {\r",
+							"    let jsonData = pm.response.json();\r",
+							"\r",
+							"    pm.expect(jsonData.Id).to.be.a(\"number\");\r",
+							"    pm.expect(jsonData.Content).to.be.a(\"string\");\r",
+							"    pm.expect(jsonData.ItemsCount).to.be.a(\"number\");\r",
+							"    pm.expect(jsonData.Icon).to.be.a(\"number\");\r",
+							"    pm.expect(jsonData.ItemType).to.be.a(\"number\");\r",
+							"    pm.expect(jsonData.ParentId).to.satisfy(value => value === null || typeof value === \"number\");\r",
+							"    pm.expect(jsonData.Collapsed).to.be.a(\"boolean\");\r",
+							"    pm.expect(jsonData.ItemOrder).to.be.a(\"number\");\r",
+							"    pm.expect(jsonData.Children).to.be.an(\"array\");\r",
+							"    pm.expect(jsonData.IsProjectShared).to.be.a(\"boolean\");\r",
+							"    pm.expect(jsonData.ProjectShareOwnerName).to.satisfy(value => value === null || typeof value === \"string\");\r",
+							"    pm.expect(jsonData.ProjectShareOwnerEmail).to.satisfy(value => value === null || typeof value === \"string\");\r",
+							"    pm.expect(jsonData.IsShareApproved).to.be.a(\"boolean\");\r",
+							"    pm.expect(jsonData.IsOwnProject).to.be.a(\"boolean\");\r",
+							"    pm.expect(jsonData.LastSyncedDateTime).to.be.a(\"string\");\r",
+							"    pm.expect(jsonData.LastUpdatedDate).to.be.a(\"string\");\r",
+							"    pm.expect(jsonData.Deleted).to.be.a(\"boolean\");\r",
+							"    pm.expect(jsonData.SyncClientCreationId).to.satisfy(value => value === null || typeof value === \"string\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response does not contain unexpected properties\", function () {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    const expectedKeys = [\r",
+							"        \"Id\", \"Content\", \"ItemsCount\", \"Icon\", \"ItemType\", \"ParentId\", \"Collapsed\",\r",
+							"        \"ItemOrder\", \"Children\", \"IsProjectShared\", \"ProjectShareOwnerName\",\r",
+							"        \"ProjectShareOwnerEmail\", \"IsShareApproved\", \"IsOwnProject\", \r",
+							"        \"LastSyncedDateTime\", \"LastUpdatedDate\", \"Deleted\", \"SyncClientCreationId\"\r",
+							"    ];\r",
+							"\r",
+							"    Object.keys(jsonData).forEach(key => {\r",
+							"        pm.expect(expectedKeys).to.include(key);\r",
+							"    });\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"packages": {},
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{passwordTest}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{emailTest\n}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Icon\": 5\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}projects/{{lastId}}.json",
+					"host": [
+						"{{url}}projects"
+					],
+					"path": [
+						"{{lastId}}.json"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "emailGenerated",
+			"value": ""
+		},
+		{
+			"key": "lastEmail",
+			"value": ""
+		},
+		{
+			"key": "lastPassword",
+			"value": ""
+		},
+		{
+			"key": "passwordGenerated",
+			"value": ""
+		},
+		{
+			"key": "lastId",
+			"value": ""
+		}
+	]
+}
